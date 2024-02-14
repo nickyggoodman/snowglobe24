@@ -41,9 +41,11 @@ class SnowglobeHomepage extends StatelessWidget {
 }
 
 class ImageDetail extends StatelessWidget {
+  const ImageDetail({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final String name = ModalRoute.of(context)!.settings.arguments as String;
+    final String name = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(title: Text(name)),
       body: LayoutBuilder(
