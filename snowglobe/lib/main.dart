@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snowglobe/images_state.dart';
 
 void main() {
   runApp(ChangeNotifierProvider<ImagesState>(
       create: (context) => ImagesState(), child: const MyApp()));
-}
-
-class ImagesState extends ChangeNotifier {
-  final List<String> images = [
-    'Washington Monument',
-    'Independence Hall',
-    'Brendan Iribe Center',
-    'Taj Mahal',
-  ];
 }
 
 class GlobePainter extends CustomPainter {
