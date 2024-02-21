@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snowglobe/image_detail.dart';
 import 'package:snowglobe/images_state.dart';
 import 'package:snowglobe/main.dart';
 
@@ -21,7 +22,7 @@ class ImageList extends StatelessWidget {
                             return ImageDetail();
                           },
                           settings:
-                              RouteSettings(arguments: value.images[index])));
+                              RouteSettings(arguments: index)));
                 },
                 child: ListTile(title: Text(value.images[index].name)));
           },

@@ -73,36 +73,6 @@ class SnowglobeHomepage extends StatelessWidget {
   }
 }
 
-class ImageDetail extends StatelessWidget {
-  const ImageDetail({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final String name = ModalRoute.of(context)?.settings.arguments as String;
-    return Scaffold(
-      appBar: AppBar(title: Text(name)),
-      body: LayoutBuilder(
-          builder: (context, constraints) => OrientationBuilder(
-              builder: (context, orientation) => Flex(
-                      direction: orientation == Orientation.portrait
-                          ? Axis.vertical
-                          : Axis.horizontal,
-                      children: [
-                        Icon(
-                          Icons.ac_unit,
-                          size: constraints.biggest.shortestSide,
-                        ),
-                        MaterialButton(
-                          child: const Text('Select Image'),
-                          onPressed: () {
-                            print('hello');
-                          },
-                        )
-                      ]))),
-    );
-  }
-}
-
 class Snowglobe extends StatelessWidget {
   const Snowglobe({super.key});
 
