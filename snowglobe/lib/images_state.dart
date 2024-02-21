@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum ImageDataSource {
-  url,
-  asset,
-  file
-}
+enum ImageDataSource { url, asset, file }
 
 class ImageData {
   final String name;
@@ -16,16 +12,29 @@ class ImageData {
 
 class ImagesState extends ChangeNotifier {
   final List<ImageData> images = [
-    ImageData(name: 'Washington Monument', location: "images/wmon.jpg", type: ImageDataSource.asset),
-    ImageData(name: 'Independence Hall', location: "images/indhall.jpg", type: ImageDataSource.asset),
-    ImageData(name: 'Brendan Iribe Center', location: "images/iribe.jpg", type: ImageDataSource.asset),
-    ImageData(name: 'Taj Mahal', location: "images/tajmahal.jpg", type: ImageDataSource.asset)
+    ImageData(
+        name: 'Washington Monument',
+        location: "images/wmon.jpg",
+        type: ImageDataSource.asset),
+    ImageData(
+        name: 'Independence Hall',
+        location: "images/indhall.jpg",
+        type: ImageDataSource.asset),
+    ImageData(
+        name: 'Brendan Iribe Center',
+        location: "images/iribe.jpg",
+        type: ImageDataSource.asset),
+    ImageData(
+        name: 'Taj Mahal',
+        location: "images/tajmahal.jpg",
+        type: ImageDataSource.asset)
   ];
 
   int _selection = -1;
 
   void select(int i) {
-    if ( i > 0 && i < images.length ) {
+    print(i);
+    if (i >= 0 && i < images.length) {
       _selection = i;
     } else {
       _selection = -1;

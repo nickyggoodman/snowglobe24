@@ -22,12 +22,13 @@ class ImageDetail extends StatelessWidget {
                         SizedBox(
                             width: constraints.biggest.shortestSide,
                             child: Image.asset(idata.location)),
-                        MaterialButton(
-                          child: const Text('Select Image'),
-                          onPressed: () {
-                            Provider.of<ImagesState>(context).select(idx);
-                          },
-                        )
+                        Consumer<ImagesState>(
+                            builder: (context, value, child) => MaterialButton(
+                                  child: const Text('Select Image'),
+                                  onPressed: () {
+                                    value.select(idx);
+                                  },
+                                ))
                       ]))),
     );
   }

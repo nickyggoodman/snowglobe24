@@ -1,40 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snowglobe/globe_painter.dart';
 import 'package:snowglobe/image_list.dart';
 import 'package:snowglobe/images_state.dart';
+import 'package:snowglobe/square_clipper.dart';
 
 void main() {
   runApp(ChangeNotifierProvider<ImagesState>(
       create: (context) => ImagesState(), child: const MyApp()));
-}
-
-class GlobePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final double length = size.shortestSide;
-    Path triangle = Path()
-      ..moveTo(0.05 * length, 0.95 * length)
-      ..lineTo(length / 2.0, length / 2.0)
-      ..lineTo(0.95 * length, 0.95 * length)
-      ..close();
-    Path circle = Path()
-      ..addOval(Rect.fromCenter(
-          center: Offset(length / 2.0, length / 2.0),
-          width: 0.75 * length,
-          height: 0.75 * length));
-    canvas.drawPath(triangle, Paint()..color = Colors.green);
-    canvas.drawPath(
-        circle,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..color = Colors.black
-          ..strokeWidth = 3.0);
-    canvas.clipPath(circle);
-    canvas.drawRect(Rect.largest, Paint()..color = Colors.blue);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class MyApp extends StatelessWidget {
@@ -55,6 +28,8 @@ class MyApp extends StatelessWidget {
 }
 
 class SnowglobeHomepage extends StatelessWidget {
+  const SnowglobeHomepage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -62,12 +37,12 @@ class SnowglobeHomepage extends StatelessWidget {
         child: Scaffold(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             appBar: AppBar(
-              title: Text('Snowglobe'),
-              bottom: TabBar(
+              title: const Text('Snowglobe'),
+              bottom: const TabBar(
                 tabs: [Tab(text: 'Images'), Tab(text: 'Globe')],
               ),
             ),
-            body: TabBarView(
+            body: const TabBarView(
               children: [ImageList(), Snowglobe()],
             )));
   }
@@ -90,9 +65,22 @@ class Snowglobe extends StatelessWidget {
                                 painter: GlobePainter(),
                                 size: Size(constraints.biggest.shortestSide,
                                     constraints.biggest.shortestSide),
+                                child: SizedBox(
+                                    height: constraints.biggest.shortestSide,
+                                    width: constraints.biggest.shortestSide,
+                                    child: ClipOval(
+                                        clipper: SquareClipper(),
+                                        child: Consumer<ImagesState>(
+                                            builder: (context, value, child) {
+                                          print(value.selection);
+                                          return Image.asset(
+                                            value.images[value.selection]
+                                                .location,
+                                          );
+                                        }))),
                               )),
                       MaterialButton(
-                        child: Text('Shake'),
+                        child: const Text('Shake'),
                         onPressed: () {
                           print('shaking');
                         },
