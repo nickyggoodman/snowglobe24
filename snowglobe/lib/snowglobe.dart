@@ -12,50 +12,63 @@ class Snowglobe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      List<Widget> globeItems = [];
-      globeItems.add(Positioned(
-        width: constraints.biggest.shortestSide,
-        height: constraints.biggest.shortestSide,
-        child: Consumer<ImagesState>(builder: (context, value, child) {
-        print(value.selection);
-        return Image.asset(
-          value.images[value.selection].location,
-        );
-      })));
-      Random r = Random();
-      for (int i = 0; i < 100; i++) {
-        double x = constraints.biggest.shortestSide * r.nextDouble();
-        double y = constraints.biggest.shortestSide * r.nextDouble();
-        globeItems
-            .add(Positioned(left: x, top: y, child: Snowflake(x: x, y: y)));
-      }
-      return OrientationBuilder(
-          builder: (context, orientation) => Flex(
-                  direction: orientation == Orientation.portrait
-                      ? Axis.vertical
-                      : Axis.horizontal,
-                  children: [
-                    LayoutBuilder(
-                      builder: (context, constraints) => CustomPaint(
-                          painter: GlobePainter(),
-                          size: Size(constraints.biggest.shortestSide,
-                              constraints.biggest.shortestSide),
-                          child: SizedBox(
-                            height: constraints.biggest.shortestSide,
-                            width: constraints.biggest.shortestSide,
-                            child: ClipOval(
-                                clipper: SquareClipper(),
-                                child: Stack(children: globeItems)),
-                          )),
-                    ),
-                    MaterialButton(
-                      child: const Text('Shake'),
-                      onPressed: () {
-                        print('shaking');
-                      },
-                    )
-                  ]));
-    });
+    return ChangeNotifierProvider<Shaker>(
+        create: (context) => Shaker(),
+        child: LayoutBuilder(builder: (context, constraints) {
+          final len = constraints.biggest.shortestSide;
+          List<Widget> globeItems = [];
+          globeItems.add(Positioned(
+              width: len,
+              height: len,
+              child: Consumer<ImagesState>(builder: (context, value, child) {
+                print(value.selection);
+                return Image.asset(
+                  value.images[value.selection].location,
+                );
+              })));
+          Random r = Random();
+          for (int i = 0; i < 200; i++) {
+            double x = len * r.nextDouble();
+            double y = len * r.nextDouble();
+            globeItems.add(Positioned(
+                left: x,
+                top: y,
+                child: Snowflake(
+                  x: x,
+                  y: y,
+                  width: len,
+                  height: len,
+                  drag: 0.3,
+                  time: 10.0,
+                  velocity: 0,
+                )));
+          }
+          return OrientationBuilder(
+              builder: (context, orientation) => Flex(
+                      direction: orientation == Orientation.portrait
+                          ? Axis.vertical
+                          : Axis.horizontal,
+                      children: [
+                        LayoutBuilder(
+                          builder: (context, constraints) => CustomPaint(
+                              painter: GlobePainter(),
+                              size: Size(constraints.biggest.shortestSide,
+                                  constraints.biggest.shortestSide),
+                              child: SizedBox(
+                                height: constraints.biggest.shortestSide,
+                                width: constraints.biggest.shortestSide,
+                                child: ClipOval(
+                                    clipper: SquareClipper(),
+                                    child: Stack(children: globeItems)),
+                              )),
+                        ),
+                        MaterialButton(
+                          child: const Text('Shake'),
+                          onPressed: () {
+                            print('shaking');
+                          },
+                        )
+                      ]));
+        }));
   }
 }
