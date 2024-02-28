@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:snowglobe/globe_painter.dart';
 import 'package:snowglobe/image_list.dart';
 import 'package:snowglobe/images_state.dart';
+import 'package:snowglobe/snowglobe.dart';
 import 'package:snowglobe/square_clipper.dart';
 
 void main() {
@@ -45,46 +46,5 @@ class SnowglobeHomepage extends StatelessWidget {
             body: const TabBarView(
               children: [ImageList(), Snowglobe()],
             )));
-  }
-}
-
-class Snowglobe extends StatelessWidget {
-  const Snowglobe({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (context, constraints) => OrientationBuilder(
-            builder: (context, orientation) => Flex(
-                    direction: orientation == Orientation.portrait
-                        ? Axis.vertical
-                        : Axis.horizontal,
-                    children: [
-                      LayoutBuilder(
-                          builder: (context, constraints) => CustomPaint(
-                                painter: GlobePainter(),
-                                size: Size(constraints.biggest.shortestSide,
-                                    constraints.biggest.shortestSide),
-                                child: SizedBox(
-                                    height: constraints.biggest.shortestSide,
-                                    width: constraints.biggest.shortestSide,
-                                    child: ClipOval(
-                                        clipper: SquareClipper(),
-                                        child: Consumer<ImagesState>(
-                                            builder: (context, value, child) {
-                                          print(value.selection);
-                                          return Image.asset(
-                                            value.images[value.selection]
-                                                .location,
-                                          );
-                                        }))),
-                              )),
-                      MaterialButton(
-                        child: const Text('Shake'),
-                        onPressed: () {
-                          print('shaking');
-                        },
-                      )
-                    ])));
   }
 }
