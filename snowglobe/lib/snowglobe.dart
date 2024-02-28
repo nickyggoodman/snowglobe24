@@ -15,6 +15,8 @@ class Snowglobe extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       List<Widget> globeItems = [];
       globeItems.add(Positioned(
+        width: constraints.biggest.shortestSide,
+        height: constraints.biggest.shortestSide,
         child: Consumer<ImagesState>(builder: (context, value, child) {
         print(value.selection);
         return Image.asset(
