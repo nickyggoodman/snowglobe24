@@ -9,13 +9,13 @@ class CounterTab extends StatefulWidget {
 
 class _CounterState extends State<CounterTab> {
   int _count = 0;
-  late Stream<dynamic> _countingStream;
+  late Stream<int> _countingStream;
 
   _CounterState() {
     _countingStream =
         Stream<int>.periodic(const Duration(seconds: 1), (computationCount) {
       return _count++;
-    });
+    }).asBroadcastStream();
   }
 
   @override
