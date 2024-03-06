@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snowglobe/counter_tab.dart';
 import 'package:snowglobe/image_list.dart';
 import 'package:snowglobe/images_state.dart';
 import 'package:snowglobe/snowglobe.dart';
@@ -32,17 +33,17 @@ class SnowglobeHomepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             appBar: AppBar(
               title: const Text('Snowglobe'),
               bottom: const TabBar(
-                tabs: [Tab(text: 'Images'), Tab(text: 'Globe')],
+                tabs: [Tab(text: 'Images'), Tab(text: 'Globe'), Tab(text: 'Counter')],
               ),
             ),
             body: const TabBarView(
-              children: [ImageList(), Snowglobe()],
+              children: [ImageList(), Snowglobe(), CounterTab()],
             )));
   }
 }
