@@ -20,28 +20,26 @@ class Snowglobe extends StatelessWidget {
           globeItems.add(Positioned(
               width: len,
               height: len,
+              left: 0,
+              top: 0,
               child: Consumer<ImagesState>(builder: (context, value, child) {
-                print(value.selection);
                 return Image.asset(
                   value.images[value.selection].location,
                 );
               })));
           Random r = Random();
-          for (int i = 0; i < 200; i++) {
-            double x = len * r.nextDouble();
-            double y = len * r.nextDouble();
-            globeItems.add(Positioned(
-                left: x,
-                top: y,
-                child: Snowflake(
-                  x: x,
-                  y: y,
-                  width: len,
-                  height: len,
-                  drag: 0.3,
-                  time: 10.0,
-                  velocity: 0,
-                )));
+          for (int i = 0; i < 600; i++) {
+            double x = len * (0.5 - r.nextDouble());
+            double y = len * (0.5 - r.nextDouble());
+            globeItems.add(Snowflake(
+              x: x,
+              y: y,
+              width: len,
+              height: len,
+              drag: 0.3,
+              time: 10.0,
+              velocity: 0,
+            ));
           }
           return OrientationBuilder(
               builder: (context, orientation) => Flex(
@@ -65,7 +63,7 @@ class Snowglobe extends StatelessWidget {
                         MaterialButton(
                           child: const Text('Shake'),
                           onPressed: () {
-                            print('shaking');
+                            Provider.of<Shaker>(context, listen: false).shake();
                           },
                         )
                       ]));

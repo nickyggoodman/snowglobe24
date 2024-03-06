@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snowglobe/globe_painter.dart';
 import 'package:snowglobe/image_list.dart';
 import 'package:snowglobe/images_state.dart';
 import 'package:snowglobe/snowglobe.dart';
-import 'package:snowglobe/square_clipper.dart';
 
 void main() {
   runApp(ChangeNotifierProvider<ImagesState>(
@@ -23,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SnowglobeHomepage(),
+      home: const SnowglobeHomepage(),
     );
   }
 }

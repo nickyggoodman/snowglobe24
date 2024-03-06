@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snowglobe/image_detail.dart';
 import 'package:snowglobe/images_state.dart';
-import 'package:snowglobe/main.dart';
 
 class ImageList extends StatelessWidget {
   const ImageList({super.key});
@@ -19,7 +18,7 @@ class ImageList extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) {
-                            return ImageDetail();
+                            return const ImageDetail();
                           },
                           settings:
                               RouteSettings(arguments: index)));

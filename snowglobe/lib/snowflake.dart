@@ -67,7 +67,7 @@ class _SnowflakeState extends State<Snowflake> with TickerProviderStateMixin {
     final double t = _controller.value;
     final double x = _xsimulation.x(t);
     final double y = _ysimulation.x(t);
-    final double d = widget.height - y;
+    final double d = max(widget.height - y, 0);
     final double tFinal = -dy / _a + sqrt(dy * dy / (_a * _a) + 2.0 * d / _a);
     _ysimulation = GravitySimulation(_a, y, widget.height, dy);
     _xsimulation = FrictionSimulation(widget.drag, x, dx);
@@ -107,6 +107,8 @@ class _SnowflakeState extends State<Snowflake> with TickerProviderStateMixin {
           return Stack(
             children: [
               Positioned(
+                  width: widget.width,
+                  height: widget.height,
                   left: _xsimulation.x(t),
                   top: _ysimulation.x(t),
                   child: const SmallCircle(

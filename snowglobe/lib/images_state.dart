@@ -33,7 +33,6 @@ class ImagesState extends ChangeNotifier {
   int _selection = -1;
 
   void select(int i) {
-    print(i);
     if (i >= 0 && i < images.length) {
       _selection = i;
     } else {
