@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum ImageDataSource { url, asset, file }
 
@@ -32,12 +33,24 @@ class ImagesState extends ChangeNotifier {
 
   int _selection = -1;
 
-  int _numFlakes = 100;
-  double _flakeSize = 5.0;
-  double _xMinKick = -50.0;
-  double _xMaxKick = 50.0;
-  double _yMinKick = 50.0;
-  double _yMaxKick = 100.0;
+  late int _numFlakes;
+  late double _flakeSize;
+  late double _xMinKick;
+  late double _xMaxKick;
+  late double _yMinKick;
+  late double _yMaxKick;
+
+  ImagesState() {
+
+  }
+
+  Future<void> _setState() async {
+    final prefs = await SharedPreferences.getInstance();
+    _numFlakes = prefs.getInt('numFlakes') ?? 100;
+    _flakeSize = prefs.getDouble('flakeSize') ?? 5.0;
+    _xMinKick = prefs.getDouble('xmin') ?? -50.0;
+    _xMaxKick = prefs.getDouble('xmax') ?? 50.0;
+  }
 
   int get numFlakes => _numFlakes;
   double get flakeSize => _flakeSize;
@@ -48,6 +61,9 @@ class ImagesState extends ChangeNotifier {
 
   void setNumFlakes(int n) {
     _numFlakes = n;
+    SharedPreferences.getInstance().then((value) {
+      value.setInt('numFlakes', n);
+    },);
     notifyListeners();
   }
 
