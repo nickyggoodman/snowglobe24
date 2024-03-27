@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:snowglobe/counter_tab.dart';
 import 'package:snowglobe/image_list.dart';
 import 'package:snowglobe/images_state.dart';
+import 'package:snowglobe/prefs_tab.dart';
 import 'package:snowglobe/snowglobe.dart';
 
 void main() {
@@ -33,17 +34,17 @@ class SnowglobeHomepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             appBar: AppBar(
               title: const Text('Snowglobe'),
               bottom: const TabBar(
-                tabs: [Tab(text: 'Images'), Tab(text: 'Globe'), Tab(text: 'Counter')],
+                tabs: [Tab(text: 'Images'), Tab(text: 'Globe'), Tab(text: 'Counter'), Tab(text: 'Prefs')],
               ),
             ),
-            body: const TabBarView(
-              children: [ImageList(), Snowglobe(), CounterTab()],
+            body: TabBarView(
+              children: [const ImageList(), const Snowglobe(), const CounterTab(), PrefsTab()],
             )));
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:provider/provider.dart';
+import 'package:snowglobe/images_state.dart';
 
 class Shaker extends ChangeNotifier {
   void shake() {
@@ -95,9 +96,10 @@ class _SnowflakeState extends State<Snowflake> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final iState = Provider.of<ImagesState>(context, listen: true);
     Provider.of<Shaker>(context, listen: true).addListener(
       () {
-        kick(minDx: -50, maxDx: 50, minDy: -100, maxDy: -50);
+        kick(minDx: iState.xMinKick, maxDx: iState.xMaxKick, minDy: -iState.yMaxKick, maxDy: -iState.yMinKick);
       },
     );
     return AnimatedBuilder(
@@ -111,8 +113,8 @@ class _SnowflakeState extends State<Snowflake> with TickerProviderStateMixin {
                   height: widget.height,
                   left: _xsimulation.x(t),
                   top: _ysimulation.x(t),
-                  child: const SmallCircle(
-                    diameter: 5.0,
+                  child: SmallCircle(
+                    diameter: Provider.of<ImagesState>(context, listen: true).flakeSize,
                   ))
             ],
           );

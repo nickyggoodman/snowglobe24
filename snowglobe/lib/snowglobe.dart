@@ -28,7 +28,7 @@ class Snowglobe extends StatelessWidget {
                 );
               })));
           Random r = Random();
-          for (int i = 0; i < 600; i++) {
+          for (int i = 0; i < Provider.of<ImagesState>(context, listen: true).numFlakes; i++) {
             double x = len * (0.5 - r.nextDouble());
             double y = len * (0.5 - r.nextDouble());
             globeItems.add(Snowflake(

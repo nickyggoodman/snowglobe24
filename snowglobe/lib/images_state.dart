@@ -32,6 +32,50 @@ class ImagesState extends ChangeNotifier {
 
   int _selection = -1;
 
+  int _numFlakes = 100;
+  double _flakeSize = 5.0;
+  double _xMinKick = -50.0;
+  double _xMaxKick = 50.0;
+  double _yMinKick = 50.0;
+  double _yMaxKick = 100.0;
+
+  int get numFlakes => _numFlakes;
+  double get flakeSize => _flakeSize;
+  double get xMinKick => _xMinKick;
+  double get xMaxKick => _xMaxKick;
+  double get yMinKick => _yMinKick;
+  double get yMaxKick => _yMaxKick;
+
+  void setNumFlakes(int n) {
+    _numFlakes = n;
+    notifyListeners();
+  }
+
+  void setFlakeSize(double s) {
+    _flakeSize = s;
+    notifyListeners();
+  }
+
+  void setXMinKick(double v) {
+    _xMinKick = v;
+    notifyListeners();
+  }
+
+  void setXMaxKick(double v) {
+    _xMaxKick = v;
+    notifyListeners();
+  }
+
+  void setYMinKick(double v) {
+    _yMinKick = v;
+    notifyListeners();
+  }
+
+  void setYMaxKick(double v) {
+    _yMaxKick = v;
+    notifyListeners();
+  }
+
   void select(int i) {
     if (i >= 0 && i < images.length) {
       _selection = i;
