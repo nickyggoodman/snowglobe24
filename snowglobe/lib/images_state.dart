@@ -33,15 +33,15 @@ class ImagesState extends ChangeNotifier {
 
   int _selection = -1;
 
-  late int _numFlakes;
-  late double _flakeSize;
-  late double _xMinKick;
-  late double _xMaxKick;
-  late double _yMinKick;
-  late double _yMaxKick;
+  int _numFlakes = 100;
+  double _flakeSize = 5.0;
+  double _xMinKick = -50.0;
+  double _xMaxKick = 50.0;
+  double _yMinKick = 50.0;
+  double _yMaxKick = 100.0;
 
   ImagesState() {
-
+    _setState();
   }
 
   Future<void> _setState() async {

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:provider/provider.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 import 'package:snowglobe/images_state.dart';
 
 class Shaker extends ChangeNotifier {
@@ -99,25 +100,48 @@ class _SnowflakeState extends State<Snowflake> with TickerProviderStateMixin {
     final iState = Provider.of<ImagesState>(context, listen: true);
     Provider.of<Shaker>(context, listen: true).addListener(
       () {
-        kick(minDx: iState.xMinKick, maxDx: iState.xMaxKick, minDy: -iState.yMaxKick, maxDy: -iState.yMinKick);
+        kick(
+            minDx: iState.xMinKick,
+            maxDx: iState.xMaxKick,
+            minDy: -iState.yMaxKick,
+            maxDy: -iState.yMinKick);
       },
     );
-    return AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) {
-          final t = _controller.value;
-          return Stack(
-            children: [
-              Positioned(
-                  width: widget.width,
-                  height: widget.height,
-                  left: _xsimulation.x(t),
-                  top: _ysimulation.x(t),
-                  child: SmallCircle(
-                    diameter: Provider.of<ImagesState>(context, listen: true).flakeSize,
-                  ))
-            ],
-          );
+    return StreamBuilder<UserAccelerometerEvent>(
+        stream: userAccelerometerEventStream(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final data = snapshot.data;
+            double dx = data?.x ?? 0.0;
+            double dy = data?.y ?? 0.0;
+            if (dy > 0) dy *= -1;
+            if (dx * dx + dy * dy > 4) {
+              kick(
+                  minDx: (dx - 1) * 5,
+                  maxDx: (dx + 1) * 5,
+                  minDy: (dy - 5) * 5,
+                  maxDy: (dy - 6)* 5);
+            }
+          }
+          return AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                final t = _controller.value;
+                return Stack(
+                  children: [
+                    Positioned(
+                        width: widget.width,
+                        height: widget.height,
+                        left: _xsimulation.x(t),
+                        top: _ysimulation.x(t),
+                        child: SmallCircle(
+                          diameter:
+                              Provider.of<ImagesState>(context, listen: true)
+                                  .flakeSize,
+                        ))
+                  ],
+                );
+              });
         });
   }
 }

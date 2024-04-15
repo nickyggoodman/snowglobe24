@@ -60,12 +60,6 @@ class Snowglobe extends StatelessWidget {
                                     child: Stack(children: globeItems)),
                               )),
                         ),
-                        MaterialButton(
-                          child: const Text('Shake'),
-                          onPressed: () {
-                            Provider.of<Shaker>(context, listen: false).shake();
-                          },
-                        )
                       ]));
         }));
   }
