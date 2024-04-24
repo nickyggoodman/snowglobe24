@@ -1,4 +1,9 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum ImageDataSource { url, asset, file }
@@ -40,8 +45,26 @@ class ImagesState extends ChangeNotifier {
   double _yMinKick = 50.0;
   double _yMaxKick = 100.0;
 
+  final AudioPlayer _player = AudioPlayer();
+  final AssetSource _sound = AssetSource('sounds/shake.mp3');
+  late StreamSubscription<UserAccelerometerEvent> _sub;
+
   ImagesState() {
     _setState();
+    _sub = userAccelerometerEventStream().listen((event) {
+      final acc =
+          sqrt(event.x * event.x + event.y * event.y + event.z * event.z);
+      if (acc > 1.0) {
+        final vol = acc >= 10.0 ? 1.0 : sqrt(acc / 10.0);
+        _player.play(_sound, volume: vol);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
   }
 
   Future<void> _setState() async {
@@ -61,9 +84,11 @@ class ImagesState extends ChangeNotifier {
 
   void setNumFlakes(int n) {
     _numFlakes = n;
-    SharedPreferences.getInstance().then((value) {
-      value.setInt('numFlakes', n);
-    },);
+    SharedPreferences.getInstance().then(
+      (value) {
+        value.setInt('numFlakes', n);
+      },
+    );
     notifyListeners();
   }
 
